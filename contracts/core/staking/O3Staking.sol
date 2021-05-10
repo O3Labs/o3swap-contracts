@@ -257,6 +257,7 @@ contract O3Staking is Context, Ownable, ReentrancyGuard {
     }
 
     function collect(address token, address to) external nonReentrant onlyOwner _logs_ {
+        require(token != StakingToken, "O3Staking: COLLECT_NOT_ALLOWED");
         uint balance = IERC20(token).balanceOf(address(this));
         _pushToken(token, to, balance);
     }
