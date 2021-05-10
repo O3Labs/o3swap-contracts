@@ -147,7 +147,7 @@ contract O3Staking is Context, Ownable, ReentrancyGuard {
         require(amount > 0, "O3Staking: ZERO_UNSTAKE_AMOUNT");
         require(amount <= rec.staked, "O3Staking: UNSTAKE_AMOUNT_EXCEEDED");
 
-        totalStaked = amount.sub(totalStaked);
+        totalStaked = totalStaked.sub(amount);
         _updateUnitProfitState();
 
         uint userTotalProfit = _settleCurrentUserProfit(_msgSender());
