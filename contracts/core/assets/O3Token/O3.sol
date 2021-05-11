@@ -202,7 +202,7 @@ contract O3 is Context, ERC20, Ownable, IO3, ReentrancyGuard {
     function _getUnlockSpeed(address token, address staker, uint256 lpStaked) internal view returns (uint256) {
         uint256 toBeUnlocked = lockedOf(staker);
         uint256 unlockSpeed = _unlockFactor[token].mul(lpStaked);
-        uint256 maxUnlockSpeed = toBeUnlocked.div(_unlockBlockGap[token]).mul(FACTOR_DENOMINATOR);
+        uint256 maxUnlockSpeed = toBeUnlocked.mul(FACTOR_DENOMINATOR).div(_unlockBlockGap[token]);
         if(unlockSpeed > maxUnlockSpeed) {
             unlockSpeed = maxUnlockSpeed;
         }
