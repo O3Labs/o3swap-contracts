@@ -4,6 +4,9 @@ const O3Staking = artifacts.require("O3Staking");
 const o3_token_eth_mainnet = "";
 const o3_token_eth_ropsten = "";
 
+const o3_token_bsc_mainnet = "0x2c42672aE36883Da889e0f93747Be502A59dC7C5";
+const o3_token_bsc_testnet = "0x97058684943932e0158cC60F33a4a98f17066927";
+
 const o3_token_heco_mainnet = "0x2c42672aE36883Da889e0f93747Be502A59dC7C5";
 const o3_token_heco_testnet = "0xeD5792A3456Cc63763E50E9Fc4A11C1589a785A1";
 
@@ -12,6 +15,7 @@ module.exports = function (deployer, network, accounts) {
         /* Mainnet Deployer */
         case "eth_mainnet_o3token":
         case "heco_mainnet_o3token":
+        case "bsc_mainnet_o3token":
             deployO3TokenMainnet(deployer, network); break;
         case "eth_mainnet_o3staking":
             deployO3StakingMainnet(deployer, network); break;
@@ -19,6 +23,7 @@ module.exports = function (deployer, network, accounts) {
         /* Testnet Deployer */
         case "eth_ropsten_o3token":
         case "heco_testnet_o3token":
+        case "bsc_testnet_o3token":
             deployO3TokenTestnet(deployer, network); break;
         case "eth_ropsten_o3staking":
             deployO3StakingRopsten(deployer, network); break;
