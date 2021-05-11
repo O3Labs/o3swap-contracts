@@ -76,9 +76,11 @@ module.exports = {
   networks: {
     eth_mainnet_o3token: network_eth_mainnet,
     eth_mainnet_o3staking: network_eth_mainnet,
+    heco_mainnet_o3token: network_heco_mainnet,
 
     eth_ropsten_o3token: network_eth_ropsten,
     eth_ropsten_o3staking: network_eth_ropsten,
+    heco_testnet_o3token: network_heco_testnet,
 
     development: network_development
   },

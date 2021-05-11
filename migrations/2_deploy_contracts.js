@@ -1,20 +1,25 @@
 const O3Token = artifacts.require("O3");
 const O3Staking = artifacts.require("O3Staking");
 
-const o3_token_mainnet = "";
-const o3_token_ropsten = "";
+const o3_token_eth_mainnet = "";
+const o3_token_eth_ropsten = "";
+
+const o3_token_heco_mainnet = "0x2c42672aE36883Da889e0f93747Be502A59dC7C5";
+const o3_token_heco_testnet = "0xeD5792A3456Cc63763E50E9Fc4A11C1589a785A1";
 
 module.exports = function (deployer, network, accounts) {
     switch (network) {
         /* Mainnet Deployer */
         case "eth_mainnet_o3token":
+        case "heco_mainnet_o3token":
             deployO3TokenMainnet(deployer, network); break;
         case "eth_mainnet_o3staking":
             deployO3StakingMainnet(deployer, network); break;
 
         /* Testnet Deployer */
         case "eth_ropsten_o3token":
-            deployO3TokenRopsten(deployer, network); break;
+        case "heco_testnet_o3token":
+            deployO3TokenTestnet(deployer, network); break;
         case "eth_ropsten_o3staking":
             deployO3StakingRopsten(deployer, network); break;
     }
@@ -31,21 +36,21 @@ function deployO3TokenMainnet(deployer, network) {
 
 function deployO3StakingMainnet(deployer, network) {
     ensureMainnet(network);
-    deployer.deploy(O3Staking, o3_token_mainnet, 1);
+    deployer.deploy(O3Staking, o3_token_eth_mainnet, 1);
 }
 
 /* ------------------------------
         Testnet Deployer
 ------------------------------ */
 
-function deployO3TokenRopsten(deployer, network) {
+function deployO3TokenTestnet(deployer, network) {
     ensureNotMainnet(network);
     deployer.deploy(O3Token);
 }
 
 function deployO3StakingRopsten(deployer, network) {
     ensureNotMainnet(network);
-    deployer.deploy(O3Staking, o3_token_ropsten, 1);
+    deployer.deploy(O3Staking, o3_token_eth_ropsten, o3_token_eth_ropsten, 1, 1);
 }
 
 /* ------------------------------
