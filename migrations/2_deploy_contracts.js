@@ -1,14 +1,14 @@
 const O3Token = artifacts.require("O3");
 const O3Staking = artifacts.require("O3Staking");
 
-const o3_token_eth_mainnet = "0x2c42672ae36883da889e0f93747be502a59dc7c5";
-const o3_token_eth_ropsten = "0xAde73f6bD020559780dCbCdB75E2Af4354f892C0";
+const o3_token_eth_mainnet = "0xEe9801669C6138E84bD50dEB500827b776777d28";
+const o3_token_eth_ropsten = "0x6cDb7B2cB95075f7264f63Ef9c8B5B76a9F7C7AF";
 
-const o3_token_bsc_mainnet = "0x2c42672aE36883Da889e0f93747Be502A59dC7C5";
-const o3_token_bsc_testnet = "0x97058684943932e0158cC60F33a4a98f17066927";
+const o3_token_bsc_mainnet = "0xEe9801669C6138E84bD50dEB500827b776777d28";
+const o3_token_bsc_testnet = "0x59923DBa13e99f2ac6E2376eC322Fe49EC003C1C";
 
-const o3_token_heco_mainnet = "0x2c42672aE36883Da889e0f93747Be502A59dC7C5";
-const o3_token_heco_testnet = "0xeD5792A3456Cc63763E50E9Fc4A11C1589a785A1";
+const o3_token_heco_mainnet = "0xEe9801669C6138E84bD50dEB500827b776777d28";
+const o3_token_heco_testnet = "0x6D2c5B89EB052c07940BA91dF6E2de8C1508E659";
 
 module.exports = function (deployer, network, accounts) {
     switch (network) {
