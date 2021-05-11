@@ -75,6 +75,9 @@ contract O3Staking is Context, Ownable, ReentrancyGuard {
         uint _startStakingBlockIndex,
         ProfitMode _mode
     ) public {
+        require(_stakingToken != address(0), "O3Staking: ZERO_STAKING_ADDRESS");
+        require(_o3Token != address(0), "O3Staking: ZERO_O3TOKEN_ADDRESS");
+
         StakingToken = _stakingToken;
         O3Token = _o3Token;
         startStakingBlockIndex = _startStakingBlockIndex;
@@ -99,7 +102,7 @@ contract O3Staking is Context, Ownable, ReentrancyGuard {
         StakingRecord storage rec = _stakingRecords[staker];
 
         uint preUnitProfit = _unitProfitAccumu[rec.blockIndex];
-        uint currentProfit = (currentProfitAccumu.sub(preUnitProfit)).mul(rec.staked.div(ONE));
+        uint currentProfit = (currentProfitAccumu.sub(preUnitProfit)).mul(rec.staked).div(ONE);
 
         return rec.totalProfit.add(currentProfit);
     }
@@ -200,7 +203,7 @@ contract O3Staking is Context, Ownable, ReentrancyGuard {
 
         uint preUnitProfit = _unitProfitAccumu[rec.blockIndex];
         uint currUnitProfit = _unitProfitAccumu[block.number];
-        uint currentProfit = (currUnitProfit.sub(preUnitProfit)).mul(rec.staked.div(ONE));
+        uint currentProfit = (currUnitProfit.sub(preUnitProfit)).mul(rec.staked).div(ONE);
 
         return rec.totalProfit.add(currentProfit);
     }
@@ -228,7 +231,7 @@ contract O3Staking is Context, Ownable, ReentrancyGuard {
 
     function _updateUnitProfit() internal {
         if (totalStaked > 0) {
-            _unitProfit = _sharePerBlock.mul(ONE.div(totalStaked));
+            _unitProfit = _sharePerBlock.mul(ONE).div(totalStaked);
         }
     }
 
