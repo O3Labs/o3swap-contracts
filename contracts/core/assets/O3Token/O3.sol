@@ -168,10 +168,12 @@ contract O3 is Context, ERC20, Ownable, IO3, ReentrancyGuard {
     function mintUnlockedToken(address to, uint256 amount) onlyAuthorizedMintCaller external override {
         _mint(to, amount);
         _mintUnlocked(to, amount);
+        require(totalSupply() <= 10**26, "O3: TOTAL_SUPPLY_EXCEEDED");
     }
 
     function mintLockedToken(address to, uint256 amount) onlyAuthorizedMintCaller external override {
         _mint(to, amount);
+        require(totalSupply() <= 10**26, "O3: TOTAL_SUPPLY_EXCEEDED");
     }
 
     function setAuthorizedMintCaller(address caller) onlyOwner external override {
