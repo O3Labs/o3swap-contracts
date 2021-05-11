@@ -26,6 +26,46 @@ const network_eth_ropsten = {
     skipDryRun: false
 };
 
+const bsc_mainnet_rpc = 'https://bsc-dataseed1.binance.org';
+const network_bsc_mainnet = {
+  provider: () => new HDWalletProvider(privateKey, bsc_mainnet_rpc),
+  network_id: 56,
+  gas: 5500000,
+  confirmations: 0,
+  timeoutBlocks: 200,
+  skipDryRun: false
+};
+
+const bsc_testnet_rpc = 'https://data-seed-prebsc-1-s1.binance.org:8545';
+const network_bsc_testnet = {
+  provider: () => new HDWalletProvider(privateKey, bsc_testnet_rpc),
+  network_id: 97,
+  gas: 5500000,
+  confirmations: 0,
+  timeoutBlocks: 200,
+  skipDryRun: false
+};
+
+const heco_mainnet_rpc = 'https://http-mainnet.hecochain.com';
+const network_heco_mainnet = {
+  provider: () => new HDWalletProvider(privateKey, heco_mainnet_rpc),
+  network_id: 128,
+  gas: 5500000,
+  confirmations: 0,
+  timeoutBlocks: 200,
+  skipDryRun: false
+};
+
+const heco_testnet_rpc = 'https://http-testnet.hecochain.com';
+const network_heco_testnet = {
+  provider: () => new HDWalletProvider(privateKey, heco_testnet_rpc),
+  network_id: 256,
+  gas: 5500000,
+  confirmations: 1,
+  timeoutBlocks: 200,
+  skipDryRun: false
+};
+
 const network_development = {
   host: "127.0.0.1",
   port: 8545,
