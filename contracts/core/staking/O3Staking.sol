@@ -21,8 +21,6 @@ contract O3Staking is Context, Ownable, ReentrancyGuard {
         uint totalProfit;
     }
 
-    enum ProfitMode {Locked, Unlocked}
-
     event LOG_STAKE (
         address indexed staker,
         uint stakeAmount
@@ -52,6 +50,8 @@ contract O3Staking is Context, Ownable, ReentrancyGuard {
     address public StakingToken;
     address public O3Token;
     uint public startStakingBlockIndex;
+    uint public startUnstakeBlockIndex;
+    uint public startClaimBlockIndex;
     uint public totalStaked;
 
     mapping(address => StakingRecord) private _stakingRecords;
@@ -61,8 +61,6 @@ contract O3Staking is Context, Ownable, ReentrancyGuard {
     uint private _upBlockIndex; // The block index `_unitProfit` refreshed.
 
     uint private _sharePerBlock;
-    ProfitMode private _profitMode;
-
     bool private _stakingPaused;
     bool private _withdarawPaused;
     bool private _claimProfitPaused;
@@ -73,19 +71,18 @@ contract O3Staking is Context, Ownable, ReentrancyGuard {
         address _stakingToken,
         address _o3Token,
         uint _startStakingBlockIndex,
-        ProfitMode _mode
+        uint _startUnstakeBlockIndex,
+        uint _startClaimBlockIndex
     ) public {
         require(_stakingToken != address(0), "O3Staking: ZERO_STAKING_ADDRESS");
         require(_o3Token != address(0), "O3Staking: ZERO_O3TOKEN_ADDRESS");
+        require(_startClaimBlockIndex >= _startStakingBlockIndex, "O3Staking: INVALID_START_CLAIM_BLOCK_INDEX");
 
         StakingToken = _stakingToken;
         O3Token = _o3Token;
         startStakingBlockIndex = _startStakingBlockIndex;
-        _profitMode = _mode;
-    }
-
-    function getProfitMode() external view returns (uint) {
-        return uint(_profitMode);
+        startUnstakeBlockIndex = _startUnstakeBlockIndex;
+        startClaimBlockIndex = _startClaimBlockIndex;
     }
 
     function getTotalProfit(address staker) external view returns (uint) {
@@ -125,6 +122,14 @@ contract O3Staking is Context, Ownable, ReentrancyGuard {
         _updateUnitProfitState();
     }
 
+    function setStartUnstakeBlockIndex(uint _startUnstakeBlockIndex) external onlyOwner _logs_ {
+        startUnstakeBlockIndex = _startUnstakeBlockIndex;
+    }
+
+    function setStartClaimBlockIndex(uint _startClaimBlockIndex) external onlyOwner _logs_ {
+        startClaimBlockIndex = _startClaimBlockIndex;
+    }
+
     function stake(uint amount) external nonReentrant _logs_ {
         require(!_stakingPaused, "O3Staking: STAKING_PAUSED");
         require(amount > 0, "O3Staking: INVALID_STAKING_AMOUNT");
@@ -144,6 +149,7 @@ contract O3Staking is Context, Ownable, ReentrancyGuard {
 
     function unstake(uint amount) external nonReentrant _logs_ {
         require(!_withdarawPaused, "O3Staking: UNSTAKE_PAUSED");
+        require(block.number >= startUnstakeBlockIndex, "O3Staking: UNSTAKE_NOT_STARTED");
 
         StakingRecord storage rec = _stakingRecords[_msgSender()];
 
@@ -163,7 +169,7 @@ contract O3Staking is Context, Ownable, ReentrancyGuard {
 
     function claimProfit() external nonReentrant _logs_ {
         require(!_claimProfitPaused, "O3Staking: CLAIM_PROFIT_PAUSED");
-        require(block.number >= startStakingBlockIndex, "O3Staking: STAKING_NOT_STARTED");
+        require(block.number >= startClaimBlockIndex, "O3Staking: CLAIM_NOT_STARTED");
 
         uint totalProfit = _getTotalProfit(_msgSender());
         require(totalProfit > 0, "O3Staking: ZERO_PROFIT");
@@ -270,11 +276,7 @@ contract O3Staking is Context, Ownable, ReentrancyGuard {
     }
 
     function _pushShareToken(address to, uint amount) internal {
-        if (_profitMode == ProfitMode.Locked) {
-            IO3(O3Token).mintLockedToken(to, amount);
-        } else {
-            IO3(O3Token).mintUnlockedToken(to, amount);
-        }
+        IO3(O3Token).mintLockedToken(to, amount);
     }
 
     function _pullToken(address token, address from, uint amount) internal {
