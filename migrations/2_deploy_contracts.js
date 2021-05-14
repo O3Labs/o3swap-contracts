@@ -41,7 +41,9 @@ function deployO3TokenMainnet(deployer, network) {
 
 function deployO3StakingMainnet(deployer, network) {
     ensureMainnet(network);
-    deployer.deploy(O3Staking, o3_token_eth_mainnet, 1);
+
+    // TODO: set parameters before deploy.
+    deployer.deploy(O3Staking);
 }
 
 /* ------------------------------
@@ -55,7 +57,9 @@ function deployO3TokenTestnet(deployer, network) {
 
 function deployO3StakingRopsten(deployer, network) {
     ensureNotMainnet(network);
-    deployer.deploy(O3Staking, o3_token_eth_ropsten, o3_token_eth_ropsten, 1, 1);
+
+    // TODO: set parameters before deploy.
+    deployer.deploy(O3Staking);
 }
 
 /* ------------------------------
