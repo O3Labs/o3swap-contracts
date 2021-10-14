@@ -10,22 +10,35 @@ const o3_token_bsc_testnet = "0x59923DBa13e99f2ac6E2376eC322Fe49EC003C1C";
 const o3_token_heco_mainnet = "0xEe9801669C6138E84bD50dEB500827b776777d28";
 const o3_token_heco_testnet = "0x6D2c5B89EB052c07940BA91dF6E2de8C1508E659";
 
+const o3_token_polygon_mainnet = "0xEe9801669C6138E84bD50dEB500827b776777d28";
+
+const o3_token_arbitrum_mainnet = "0xEe9801669C6138E84bD50dEB500827b776777d28";
+
 module.exports = function (deployer, network, accounts) {
     switch (network) {
         /* Mainnet Deployer */
         case "eth_mainnet_o3token":
         case "heco_mainnet_o3token":
         case "bsc_mainnet_o3token":
+        case "polygon_mainnet_o3token":
+        case "arbitrum_mainnet_o3token":
             deployO3TokenMainnet(deployer, network); break;
+        case "bsc_mainnet_o3staking":
         case "eth_mainnet_o3staking":
+        case "heco_mainnet_o3staking":
+        case "polygon_mainnet_o3staking":
+        case "arbitrum_mainnet_o3staking":
             deployO3StakingMainnet(deployer, network); break;
 
         /* Testnet Deployer */
         case "eth_ropsten_o3token":
         case "heco_testnet_o3token":
         case "bsc_testnet_o3token":
+        case "polygon_testnet_o3token":
+        case "arbitrum_testnet_o3token":
             deployO3TokenTestnet(deployer, network); break;
         case "eth_ropsten_o3staking":
+        case "arbitrum_testnet_o3staking":
             deployO3StakingRopsten(deployer, network); break;
     }
 };
